@@ -23,6 +23,7 @@ def get_items():
 
 def processing_title(title):
 	''' Set score, based on the title
+		TODO
 	'''
 	pass
 
