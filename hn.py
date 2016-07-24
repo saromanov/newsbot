@@ -60,11 +60,7 @@ def processing_comments(comments, low_rate=0.2, high_rate=2):
 		else:
 			new_rate = low_rate * count
 		new_result.append((id, new_rate))
-	sorted_result = sorted(new_result, key=lambda x: x[1], reverse=True)
-	print("After sortung")
-	for (id, count) in sorted_result:
-		item = hn.get_item(id)
-		print(item.title)
+	return sorted(new_result, key=lambda x: x[1], reverse=True)
 
 	
 
