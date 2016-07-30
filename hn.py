@@ -49,8 +49,9 @@ def processing_score(scores, noise=True):
 			grown_result.append((item_id, growth))
 		else:
 			data[item_id] = Item(item_id, score, "", "")
+			grown_result.append((item_id, score))
 	sort_result = sorted(grown_result, key=lambda x: x[1], reverse=True)
-	print(sort_result)
+	return sort_result
 
 
 
@@ -75,9 +76,10 @@ def processing_comments(comments, low_rate=0.2, high_rate=2):
 def processing():
 	items = get_items()
 	#processing_score([(item.item_id, item.score) for item in items])
-	#processing_comments([(item.item_id, len(item.kids)) for item in items if item.kids is not None])
-	for i in range(10):
-		processing_score([(item.item_id, item.score) for item in items])
+	print(processing_comments([(item.item_id, len(item.kids)) for item in items if item.kids is not None]))
+	print(processing_score([(item.item_id, item.score) for item in items]))
+
+	# output results
 
 
 processing()
