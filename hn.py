@@ -12,13 +12,15 @@ class Item:
 		self.link = link
 
 data = {}
+items = {}
 def get_items():
-	items = []
-	for story_id in hn.top_stories(limit=10):
+	items_list = []
+	for story_id in hn.top_stories(limit=20):
 		item = hn.get_item(story_id)
-		items.append(item)
+		items_list.append(item)
 		print(item.item_type, item.title, item.score, item.item_id)
-	return items
+		items[item.item_id] = Item(item.item_id, item.score, item.title, item.url)
+	return items_list
 
 
 def processing_title(title):
@@ -74,7 +76,6 @@ def processing_comments(comments, low_rate=0.2, high_rate=2):
 
 def sorting(data, dict_data):
 	for i, (x, score) in enumerate(data):
-		print(x)
 		if x in dict_data:
 			dict_data[x]+=(len(data) - i) * score
 		else:
@@ -82,16 +83,17 @@ def sorting(data, dict_data):
 	return dict_data	
 
 def processing():
-	items = get_items()
-	#processing_score([(item.item_id, item.score) for item in items])
-	result_comments = processing_comments([(item.item_id, len(item.kids)) for item in items if item.kids is not None])
-	result_score = processing_score([(item.item_id, item.score) for item in items])
+	items_list = get_items()
+	#processing_score([(item.item_id, item.score) for item in items_list])
+	result_comments = processing_comments([(item.item_id, len(item.kids)) for item in items_list if item.kids is not None])
+	result_score = processing_score([(item.item_id, item.score) for item in items_list])
 	result = {}
 	result = sorting(result_comments, result)
 	result = sorting(result_score, result)
 	pre_result = sorted([(key, value) for (key, value) in result.items()],key=lambda x: x[1], reverse=True)
 	# output results
-
+	for (key, value) in pre_result[:7]:
+		print(items[key].text)
 
 
 processing()
