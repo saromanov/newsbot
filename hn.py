@@ -41,7 +41,10 @@ def processing_score(scores, noise=True):
 			item_object = data[item_id]
 			noise_value = 1
 			if noise: noise_value = abs(numpy.random.normal(0,0.1))
-			growth = (score - item_object.score)/item_object.score
+			if score == item_object.score:
+				grown_result.append((item_id, score))
+				continue
+			growth = float(score - item_object.score)/float(item_object.score)
 			data[item_id] = Item(item_id, growth, "", "")
 			grown_result.append((item_id, growth))
 		else:
