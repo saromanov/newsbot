@@ -41,11 +41,13 @@ def processing_score(scores, noise=True):
 			item_object = data[item_id]
 			noise_value = 1
 			if noise: noise_value = abs(numpy.random.normal(0,0.1))
-			growth = (score - item_object.last_score)/item_object.last_score
-			grown_result.append((item_id, grown_result))
+			growth = (score - item_object.score)/item_object.score
+			data[item_id] = Item(item_id, growth, "", "")
+			grown_result.append((item_id, growth))
 		else:
 			data[item_id] = Item(item_id, score, "", "")
 	sort_result = sorted(grown_result, key=lambda x: x[1], reverse=True)
+	print(sort_result)
 
 
 
@@ -70,9 +72,9 @@ def processing_comments(comments, low_rate=0.2, high_rate=2):
 def processing():
 	items = get_items()
 	#processing_score([(item.item_id, item.score) for item in items])
-
+	#processing_comments([(item.item_id, len(item.kids)) for item in items if item.kids is not None])
 	for i in range(10):
-		processing_comments([(item.item_id, len(item.kids)) for item in items if item.kids is not None])
+		processing_score([(item.item_id, item.score) for item in items])
 
 
 processing()
