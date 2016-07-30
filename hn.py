@@ -18,7 +18,6 @@ def get_items():
 	for story_id in hn.top_stories(limit=20):
 		item = hn.get_item(story_id)
 		items_list.append(item)
-		print(item.item_type, item.title, item.score, item.item_id)
 		items[item.item_id] = Item(item.item_id, item.score, item.title, item.url)
 	return items_list
 
@@ -84,7 +83,6 @@ def sorting(data, dict_data):
 
 def processing():
 	items_list = get_items()
-	#processing_score([(item.item_id, item.score) for item in items_list])
 	result_comments = processing_comments([(item.item_id, len(item.kids)) for item in items_list if item.kids is not None])
 	result_score = processing_score([(item.item_id, item.score) for item in items_list])
 	result = {}
