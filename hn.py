@@ -74,19 +74,22 @@ def processing_comments(comments, low_rate=0.2, high_rate=2):
 
 def sorting(data, dict_data):
 	for i, (x, score) in enumerate(data):
+		print(x)
 		if x in dict_data:
 			dict_data[x]+=(len(data) - i) * score
 		else:
 			dict_data[x] = (len(data) - i) * score
-		return dict_data	
+	return dict_data	
 
 def processing():
 	items = get_items()
 	#processing_score([(item.item_id, item.score) for item in items])
 	result_comments = processing_comments([(item.item_id, len(item.kids)) for item in items if item.kids is not None])
 	result_score = processing_score([(item.item_id, item.score) for item in items])
-
-
+	result = {}
+	result = sorting(result_comments, result)
+	result = sorting(result_score, result)
+	pre_result = sorted([(key, value) for (key, value) in result.items()],key=lambda x: x[1], reverse=True)
 	# output results
 
 
